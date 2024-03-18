@@ -7,7 +7,7 @@
 #------------------------------------------------------------
 
 CREATE TABLE users (
-    id binary(16) NOT NULL, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL UNIQUE, password Varchar(255) NOT NULL, createdAt Date NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
+    id binary(16) DEFAULT(UUID_TO_BIN(UUID(), 1)) NOT NULL UNIQUE, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL UNIQUE, password Varchar(255) NOT NULL, createdAt Date NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -15,7 +15,7 @@ CREATE TABLE users (
 #------------------------------------------------------------
 
 CREATE TABLE lunch_services (
-    id binary(16) NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_lunch_services PRIMARY KEY (id)
+    id Int Auto_increment NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_lunch_services PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -23,7 +23,7 @@ CREATE TABLE lunch_services (
 #------------------------------------------------------------
 
 CREATE TABLE evening_services (
-    id binary(16) NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_evening_services PRIMARY KEY (id)
+    id Int Auto_increment NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_evening_services PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -31,7 +31,7 @@ CREATE TABLE evening_services (
 #------------------------------------------------------------
 
 CREATE TABLE available_tables (
-    id binary(16) NOT NULL, available_tables Integer NOT NULL, CONSTRAINT PK_available_tables PRIMARY KEY (id)
+    id Int Auto_increment NOT NULL, available_tables Integer NOT NULL, CONSTRAINT PK_available_tables PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -39,7 +39,7 @@ CREATE TABLE available_tables (
 #------------------------------------------------------------
 
 CREATE TABLE opening_dates (
-    id binary(16) NOT NULL, opening_date Date NOT NULL, CONSTRAINT PK_opening_dates PRIMARY KEY (id)
+    id Int Auto_increment NOT NULL, opening_date Date NOT NULL, CONSTRAINT PK_opening_dates PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -48,11 +48,11 @@ CREATE TABLE opening_dates (
 
 CREATE TABLE reservations(
         id_users          binary(16) NOT NULL ,
-        id                binary(16) NOT NULL ,
+        id                Int NOT NULL ,
         number_of_persons Integer NOT NULL ,
         baby_chair        Bool NOT NULL ,
         reservedAt        Date NOT NULL ,
-        id_opening_dates  binary(16) NOT NULL
+        id_opening_dates  Int NOT NULL
 	,CONSTRAINT PK_reservations PRIMARY KEY (id_users,id)
 
 
@@ -65,9 +65,9 @@ CREATE TABLE reservations(
 #------------------------------------------------------------
 
 CREATE TABLE toSchedule(
-        id                 binary(16) NOT NULL ,
-        id_lunch_services   binary(16) NOT NULL ,
-        id_evening_services binary(16) NOT NULL
+        id                  Int NOT NULL ,
+        id_lunch_services   Int NOT NULL ,
+        id_evening_services Int NOT NULL
 	,CONSTRAINT PK_toSchedule PRIMARY KEY (id,id_lunch_services,id_evening_services)
 
 
@@ -81,9 +81,9 @@ CREATE TABLE toSchedule(
 #------------------------------------------------------------
 
 CREATE TABLE toAvailable(
-        id                    binary(16) NOT NULL ,
+        id                    Int NOT NULL ,
         id_users_reservations binary(16) NOT NULL ,
-        id_reservations       binary(16) NOT NULL
+        id_reservations       Int NOT NULL
 	,CONSTRAINT PK_toAvailable PRIMARY KEY (id,id_users_reservations,id_reservations)
 
 
