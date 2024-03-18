@@ -18,15 +18,14 @@ final class UsersRepository
 
     public function create(array $data)
     {
-        $sql = "INSERT INTO Users (firtsname, lastname, mail, password, createdAt) VALUE(firtsname:, lastname:, mail:, password:, createdAt:)";
+        $sql = "INSERT INTO Users (firtsname, lastname, mail, password, createdAt) VALUE(firtsname:, lastname:, mail:, password:)";
         try {
 
             $params = [
                 'firtsname' => $data['firstnme'],
                 'lastname' => $data['lastname'],
                 'mail' => $data['mail'],
-                'password' => $data['password'],
-                'createdAt' => date('Y-m-d')
+                'password' => $data['password']
             ];
 
             $stmt = $this->db->prepare($sql);
@@ -34,6 +33,7 @@ final class UsersRepository
             $stmt->closeCursor();
 
             $userId = $this->db->lastInsertId();
+            var_dump($userId);
             $params['id'] = $userId;
             $user = new Users($params);
             return $user;
