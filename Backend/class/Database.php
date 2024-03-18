@@ -17,7 +17,7 @@ final class Database
     {
         try {
             $dsn = "mysql:host=$CONFIG[DB_HOST];dbname=$CONFIG[DB_NAME]";
-            $this->db = new PDO($dsn, $CONFIG['DB_USER'], $CONFIG['DB_MDP'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $this->db = new PDO($dsn, $CONFIG['DB_USER'], $CONFIG['DB_MDP'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_CLASS]);
         } catch (PDOException $erreur) {
             echo "Connexion error : " . $erreur->getMessage();
         }
