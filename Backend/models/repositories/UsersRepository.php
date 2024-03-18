@@ -18,7 +18,7 @@ final class UsersRepository
 
     public function create(array $data)
     {
-        $sql = "INSERT INTO Users (firtsname, lastname, mail, password, createdAt) VALUE(firtsname:, lastname:, mail:, password:, createdAt:)";
+        $sql = "INSERT INTO Users (id, firtsname, lastname, mail, password, createdAt) VALUE(UUID_TO_BIN(UUID(),true), firtsname:, lastname:, mail:, password:, createdAt:)";
         try {
 
             $params = [
@@ -26,7 +26,7 @@ final class UsersRepository
                 'lastname' => $data['lastname'],
                 'mail' => $data['mail'],
                 'password' => $data['password'],
-                'createdAt' => date('d/m/Y')
+                'createdAt' => date('Y-m-d')
             ];
 
             $stmt = $this->db->prepare($sql);
