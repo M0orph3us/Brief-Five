@@ -1,7 +1,15 @@
 <?php
 function autoload($class)
 {
-    $directories = ['../class/', '../class/repository/', '../../Backend/class/', '../../Backend/class/repository/'];
+    $urlClass = __DIR__ .  '/../class/';
+    $urlRepo = __DIR__ . '/../models/repositories/';
+    $urlModels =  __DIR__ . '/../models/';
+
+    $directories = [
+        $urlClass,
+        $urlRepo,
+        $urlModels
+    ];
 
     foreach ($directories as $directory) {
         $file = $directory . $class . '.php';
@@ -17,3 +25,6 @@ function autoload($class)
 spl_autoload_register("autoload");
 
 session_start();
+
+$db = new Database();
+$getDb = $db->getConnection();

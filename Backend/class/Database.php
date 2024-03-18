@@ -8,7 +8,7 @@ final class Database
     // constructor
     public function __construct()
     {
-        require '../config/configDB.php';
+        require __DIR__ . '/../config/configDB.php';
         $this->connexionDB($CONFIG);
     }
     // Methods
