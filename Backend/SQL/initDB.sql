@@ -7,7 +7,7 @@
 #------------------------------------------------------------
 
 CREATE TABLE users (
-    id binary(16) DEFAULT(UUID_TO_BIN(UUID(), 1)) NOT NULL UNIQUE, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL UNIQUE, password Varchar(255) NOT NULL, createdAt Date NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
+    id binary(16) DEFAULT(UUID_TO_BIN(UUID(), 1)) NOT NULL UNIQUE, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL UNIQUE, password Varchar(255) NOT NULL, createdAt Date DEFAULT(CURRENT_DATE) NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
