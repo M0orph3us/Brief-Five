@@ -7,39 +7,7 @@
 #------------------------------------------------------------
 
 CREATE TABLE users (
-    id binary(16) DEFAULT(UUID_TO_BIN(UUID(), 1)) NOT NULL UNIQUE, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL UNIQUE, password Varchar(255) NOT NULL, createdAt Date DEFAULT(CURRENT_DATE) NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-#------------------------------------------------------------
-# Table: lunch_services
-#------------------------------------------------------------
-
-CREATE TABLE lunch_services (
-    id Int Auto_increment NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_lunch_services PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-#------------------------------------------------------------
-# Table: evening_services
-#------------------------------------------------------------
-
-CREATE TABLE evening_services (
-    id Int Auto_increment NOT NULL, first_time_slot Time NOT NULL, second_time_slot Time NOT NULL, CONSTRAINT PK_evening_services PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-#------------------------------------------------------------
-# Table: available_tables
-#------------------------------------------------------------
-
-CREATE TABLE available_tables (
-    id Int Auto_increment NOT NULL, available_tables Integer NOT NULL, CONSTRAINT PK_available_tables PRIMARY KEY (id)
-) ENGINE = InnoDB;
-
-#------------------------------------------------------------
-# Table: opening_dates
-#------------------------------------------------------------
-
-CREATE TABLE opening_dates (
-    id Int Auto_increment NOT NULL, opening_date Date NOT NULL, CONSTRAINT PK_opening_dates PRIMARY KEY (id)
+    id Int Auto_increment NOT NULL, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, mail Varchar(255) NOT NULL, password Varchar(255) NOT NULL, role Varchar(20) DEFAULT('user') NOT NULL, created_at Date DEFAULT(CURRENT_DATE) NOT NULL, CONSTRAINT PK_users PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -47,46 +15,51 @@ CREATE TABLE opening_dates (
 #------------------------------------------------------------
 
 CREATE TABLE reservations(
-        id_users          binary(16) NOT NULL ,
-        id                Int NOT NULL ,
+        id                Int  Auto_increment  NOT NULL ,
         number_of_persons Integer NOT NULL ,
         baby_chair        Bool NOT NULL ,
-        reservedAt        Date NOT NULL ,
-        id_opening_dates  Int NOT NULL
-	,CONSTRAINT PK_reservations PRIMARY KEY (id_users,id)
+        reserved_on       Date NOT NULL ,
+        id_users          Int NOT NULL
+	,CONSTRAINT PK_reservations PRIMARY KEY (id)
 
 
 	,CONSTRAINT FK_reservations_users FOREIGN KEY (id_users) REFERENCES users(id)
-	,CONSTRAINT FK_reservations_opening_dates0 FOREIGN KEY (id_opening_dates) REFERENCES opening_dates(id)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
-# Table: toSchedule
+# Table: available_tables
 #------------------------------------------------------------
 
-CREATE TABLE toSchedule(
-        id                  Int NOT NULL ,
-        id_lunch_services   Int NOT NULL ,
-        id_evening_services Int NOT NULL
-	,CONSTRAINT PK_toSchedule PRIMARY KEY (id,id_lunch_services,id_evening_services)
-
-
-	,CONSTRAINT FK_toSchedule_opening_dates FOREIGN KEY (id) REFERENCES opening_dates(id)
-	,CONSTRAINT FK_toSchedule_lunch_services0 FOREIGN KEY (id_lunch_services) REFERENCES lunch_services(id)
-	,CONSTRAINT FK_toSchedule_evening_services1 FOREIGN KEY (id_evening_services) REFERENCES evening_services(id)
-)ENGINE=InnoDB;
+CREATE TABLE availableTables (
+    id Int Auto_increment NOT NULL, quantity_tables Integer NOT NULL, CONSTRAINT PK_available_tables PRIMARY KEY (id)
+) ENGINE = InnoDB;
 
 #------------------------------------------------------------
-# Table: toAvailable
+# Table: opening
 #------------------------------------------------------------
 
-CREATE TABLE toAvailable(
-        id                    Int NOT NULL ,
-        id_users_reservations binary(16) NOT NULL ,
-        id_reservations       Int NOT NULL
-	,CONSTRAINT PK_toAvailable PRIMARY KEY (id,id_users_reservations,id_reservations)
+CREATE TABLE opening (
+    id Int Auto_increment NOT NULL, opening_day Date NOT NULL, opening_hour Time NOT NULL, CONSTRAINT PK_opening PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+#------------------------------------------------------------
+# Table: teams
+#------------------------------------------------------------
+
+CREATE TABLE teams (
+    id Int Auto_increment NOT NULL, firstname Varchar(50) NOT NULL, lastname Varchar(50) NOT NULL, CONSTRAINT PK_teams PRIMARY KEY (id)
+) ENGINE = InnoDB;
+
+#------------------------------------------------------------
+# Table: toAssign
+#------------------------------------------------------------
+
+CREATE TABLE toAssign(
+        id_teams        Int NOT NULL ,
+        id_reservations Int NOT NULL 
+	,CONSTRAINT PK_toAssign PRIMARY KEY (id_teams,id_reservations)
 
 
-	,CONSTRAINT FK_toAvailable_available_tables FOREIGN KEY (id) REFERENCES available_tables(id)
-	,CONSTRAINT FK_toAvailable_reservations0 FOREIGN KEY (id_users_reservations,id_reservations) REFERENCES reservations(id_users,id)
+	,CONSTRAINT FK_toAssign_teams FOREIGN KEY (id_teams) REFERENCES teams(id)
+	,CONSTRAINT FK_toAssign_reservations0 FOREIGN KEY (id_reservations) REFERENCES reservations(id)
 )ENGINE=InnoDB;
