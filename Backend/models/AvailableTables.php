@@ -1,8 +1,9 @@
 <?php
-final class ToAssign
+final class AvailableTables
 {
     // params
-    private string $uuid_teams, $uuid_reservations;
+    private string $uuid;
+    private int $quantity_tables;
     // constructor
     public function __construct(array $infos)
     {
@@ -22,18 +23,18 @@ final class ToAssign
     // setters & getters
 
     /**
-     * @return string
+     * $return string
      */
-    public function getUuid_teams(): string
+    public function getUuid(): string
     {
-        return $this->uuid_teams;
+        return $this->uuid;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getUuid_reservations(): string
+    public function getQuantity_tables(): int
     {
-        return $this->uuid_reservations;
+        return $this->quantity_tables;
     }
 }

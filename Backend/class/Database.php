@@ -1,5 +1,4 @@
 <?php
-
 final class Database
 {
     // params
@@ -16,8 +15,8 @@ final class Database
     private function connexionDB($CONFIG)
     {
         try {
-            $dsn = "mysql:host=$CONFIG[DB_HOST];dbname=$CONFIG[DB_NAME]";
-            $this->db = new PDO($dsn, $CONFIG['DB_USER'], $CONFIG['DB_MDP'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+            $dsn = "mysql:host=" . $CONFIG['DB_HOST'] . ";dbname=" . $CONFIG['DB_NAME'];
+            $this->db = new PDO($dsn, $CONFIG['DB_USER'], $CONFIG['DB_PASSWORD'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
         } catch (PDOException $erreur) {
             echo "Connexion error : " . $erreur->getMessage();
         }

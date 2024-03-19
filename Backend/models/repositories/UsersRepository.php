@@ -19,11 +19,11 @@ final class UsersRepository
      */
     public function create(array $data): ?Users
     {
-        $sql = "INSERT INTO Users (firtsname, lastname, mail, password) VALUE(:firtsname, :lastname, :mail, :password)";
+        $sql = "INSERT INTO users (firstname, lastname, mail, password) VALUE(:firstname, :lastname, :mail, :password)";
         try {
 
             $params = [
-                'firtsname' => $data['firstname'],
+                'firstname' => $data['firstname'],
                 'lastname' => $data['lastname'],
                 'mail' => $data['mail'],
                 'password' => $data['password']
@@ -33,65 +33,69 @@ final class UsersRepository
             $stmt->execute($params);
             $stmt->closeCursor();
 
-            $userId = $this->db->lastInsertId();
-            var_dump($userId);
-            $params['id'] = $userId;
+
             $user = new Users($params);
-            return $user;
-        } catch (PDOException $e) {
-            echo 'Error : ' . $e->getMessage();
+            return $user ? $user : null;
+        } catch (PDOException $error) {
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
 
     /**
-     * @param int $id
-     * @return Users|null
+     * @param string $uuid
+     * @return mixed | null
      */
-    public function readOne(int $id): ?Users
+    public function readOne(string $uuid)
     {
-        $sql = 'SELECT * FROM users WHERE id = :id';
+        $sql = 'SELECT * FROM users WHERE uuid = 0x11eee6399893e6568a1600ff64196eed';
         $params = [
-            'id' => $id
+            'uuid' => $uuid
         ];
         try {
             $stmt = $this->db->prepare($sql);
-            $stmt->execute($params);
-            $stmt->setFetchMode(PDO::FETCH_CLASS, Users::class);
-            $request = $stmt->fetch();
+            $stmt->execute();
+            // $result = $stmt->setFetchMode(PDO::FETCH_CLASS, Users::class);
+            $result = $stmt->fetch();
+
             $stmt->closeCursor();
-            return $request;
+            var_dump('test3', $result->getMail());
+            die;
+
+            return $result;
         } catch (PDOException $error) {
-            echo 'Error : ' . $error->getMessage();
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
 
     /**
-     * @return Users|null
+     * @return array
      */
-    public function readAll(): ?Users
+    public function readAll(): array
     {
         $sql = "SELECT * FROM users";
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $request = $stmt->fetchAll(PDO::FETCH_CLASS, Users::class);
+            $result = $stmt->fetchAll(PDO::FETCH_CLASS);
             $stmt->closeCursor();
-            return $request;
+            // var_dump($result[1]->getMail());
+            var_dump($result[1]->mail);
+            return $result;
         } catch (PDOException $error) {
-            echo 'Error : ' . $error->getMessage();
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
     /**
-     * @param int $id
+     * @param string $uuid
      * @param array<string, mixed> $data
      * @return void
      */
-    public function update(int $id, array $data): void
+    public function update(string $uuid, array $data): void
     {
-        $sql = 'UPDATE users SET firtsname = :firtsname, lastname = :lastname, mail = :mail, password = :password WHERE id = :id';
+        $sql = 'UPDATE users SET firstname = :firstname, lastname = :lastname, mail = :mail, password = :password WHERE uuid = UUID_TO_BIN(:uuid)';
         $params = [
-            'id' => $id,
-            'firtsname' => $data['firstname'],
+            'uuid' => $uuid,
+            'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'mail' => $data['mail'],
             'password' => $data['password']
@@ -102,25 +106,51 @@ final class UsersRepository
             $stmt->execute($params);
             $stmt->closeCursor();
         } catch (PDOException $error) {
-            echo 'Error : ' . $error->getMessage();
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
     /**
-     * @param int $id
+     * @param string $uuid
      * @return void
      */
-    public function delete(int $id): void
+    public function delete(string $uuid): void
     {
-        $sql = 'DELETE FROM users WHERE id = :id';
+        $sql = 'DELETE FROM users WHERE uuid = UUID_TO_BIN(:uuid)';
         $params = [
-            'id' => $id
+            'uuid' => $uuid
         ];
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
             $stmt->closeCursor();
         } catch (PDOException $error) {
-            echo 'Error : ' . $error->getMessage();
+            throw new Exception('Error: ' . $error->getMessage());
+        }
+    }
+    /**
+     * @param string $mail
+     * @return string | null
+     */
+
+    public function getUuid(string $mail): ?string
+    {
+        $sql = 'SELECT BIN_TO_UUID(uuid) AS uuid FROM users WHERE mail = :mail';
+        $params = [
+            'mail' => $mail
+        ];
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            $result = $stmt->fetch(PDO::FETCH_COLUMN);
+            $stmt->closeCursor();
+
+            if ($result) {
+                return $result;
+            } else {
+                return null;
+            }
+        } catch (PDOException $error) {
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
 }

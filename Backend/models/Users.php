@@ -2,16 +2,16 @@
 final class Users
 {
     // params
-    private $firstname, $lastname, $mail, $password, $role, $created_at;
+    private string $uuid, $firstname, $lastname, $mail, $password, $role, $created_at;
 
     // contructor
-    public function __construct(array $infos)
+    public function __construct($infos)
     {
         $this->hydrate($infos);
     }
 
     // function to hydrate
-    private function hydrate(array $array)
+    private function hydrate(array $array): void
     {
         foreach ($array as $key => $value) {
             $method = "set" . ucfirst($key);
@@ -23,6 +23,14 @@ final class Users
 
 
     // setters & getters
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
 
     /**
      * @return string
@@ -67,10 +75,12 @@ final class Users
     /**
      *  @return DateTimeImmutable
      */
-    public function getCreated_at(): DateTimeImmutable
+    public function getCreated_at(): string
     {
         return $this->created_at;
     }
 
     // methods
+
+
 }
