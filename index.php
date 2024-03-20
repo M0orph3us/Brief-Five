@@ -1,5 +1,3 @@
 <?php
-header("Location: ./Frontend/pages/index.php");
-exit;
-
+require __DIR__ . '/./Backend/config/autoload.php';
 // SILENCE IS GOLDEN

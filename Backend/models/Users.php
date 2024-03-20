@@ -5,9 +5,9 @@ final class Users
     private string $uuid, $firstname, $lastname, $mail, $password, $role, $created_at;
 
     // contructor
-    public function __construct($infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate
@@ -73,11 +73,14 @@ final class Users
     }
 
     /**
-     *  @return DateTimeImmutable
+     *  @return string
      */
     public function getCreated_at(): string
     {
-        return $this->created_at;
+        $getDate = $this->created_at;
+        $date = new DateTimeImmutable($getDate);
+        $dateFormat = $date->format('d/m/Y');
+        return $dateFormat;
     }
 
     // methods

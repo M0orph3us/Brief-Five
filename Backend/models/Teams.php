@@ -5,9 +5,9 @@ final class Teams
     private string $uuid, $firstname, $name;
 
     // constructor
-    public function __construct(array $infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate

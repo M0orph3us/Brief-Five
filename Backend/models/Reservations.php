@@ -6,9 +6,9 @@ final class Reservations
     private int $number_of_persons;
     private bool $baby_chair;
     // constructor
-    public function __construct(array $infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate
@@ -52,7 +52,10 @@ final class Reservations
      */
     public function getReserved_on(): string
     {
-        return $this->reserved_on;
+        $getDate = $this->reserved_on;
+        $date = new DateTimeImmutable($getDate);
+        $dateFormat = $date->format('d/m/Y');
+        return $dateFormat;
     }
 
     /**

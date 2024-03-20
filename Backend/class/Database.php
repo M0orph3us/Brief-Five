@@ -17,20 +17,16 @@ final class Database
         try {
             $dsn = "mysql:host=" . $CONFIG['DB_HOST'] . ";dbname=" . $CONFIG['DB_NAME'];
             $this->db = new PDO($dsn, $CONFIG['DB_USER'], $CONFIG['DB_PASSWORD'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        } catch (PDOException $erreur) {
-            echo "Connexion error : " . $erreur->getMessage();
+        } catch (PDOException $error) {
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
 
-    public function getConnection()
+    public function getDb()
     {
         return $this->db;
     }
 
-    public function closeConnection()
-    {
-        $this->db = null;
-    }
 
     public function initDB()
     {
@@ -38,8 +34,8 @@ final class Database
         try {
             $request = $this->db->prepare($sql);
             $request->execute();
-        } catch (PDOException $e) {
-            "Impossible to fill the database : " . $e->getMessage();
+        } catch (PDOException $error) {
+            throw new Exception('Error: ' . $error->getMessage());
         }
     }
 }

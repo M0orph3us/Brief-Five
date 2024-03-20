@@ -4,10 +4,11 @@ final class AvailableTables
     // params
     private string $uuid;
     private int $quantity_tables;
+
     // constructor
-    public function __construct(array $infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate

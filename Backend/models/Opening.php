@@ -5,9 +5,9 @@ final class Opening
     private string $uuid, $opening_day, $opening_hour;
 
     // constructor
-    public function __construct(array $infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate

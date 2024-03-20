@@ -8,7 +8,7 @@ final class ReservationsRepository
     public function __construct()
     {
         $this->db = new Database();
-        $this->db = $this->db->getConnection();
+        $this->db = $this->db->getDb();
     }
 
     // CRUD

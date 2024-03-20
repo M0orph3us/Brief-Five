@@ -4,9 +4,9 @@ final class ToAssign
     // params
     private string $uuid_teams, $uuid_reservations;
     // constructor
-    public function __construct(array $infos)
+    public function __construct()
     {
-        $this->hydrate($infos);
+        // $this->hydrate($infos);
     }
 
     // function to hydrate

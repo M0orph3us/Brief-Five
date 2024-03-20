@@ -8,16 +8,16 @@ final class UsersRepository
     public function __construct()
     {
         $this->db = new Database();
-        $this->db = $this->db->getConnection();
+        $this->db = $this->db->getDb();
     }
 
     // CRUD
 
     /**
-     * @param array<string, mixed> $data
-     * @return Users|null
+     * @param array<string, string> $data
+     * @return Users
      */
-    public function create(array $data): ?Users
+    public function create(array $data): Users
     {
         $sql = "INSERT INTO users (firstname, lastname, mail, password) VALUE(:firstname, :lastname, :mail, :password)";
         try {
@@ -33,9 +33,12 @@ final class UsersRepository
             $stmt->execute($params);
             $stmt->closeCursor();
 
-
+            $getUuid = $this->getUuid($data['mail']);
+            $params =  [
+                'uuid' => $getUuid
+            ];
             $user = new Users($params);
-            return $user ? $user : null;
+            return $user;
         } catch (PDOException $error) {
             throw new Exception('Error: ' . $error->getMessage());
         }
@@ -43,23 +46,20 @@ final class UsersRepository
 
     /**
      * @param string $uuid
-     * @return mixed | null
+     * @return Users
      */
-    public function readOne(string $uuid)
+    public function readOne(string $uuid): Users
     {
-        $sql = 'SELECT * FROM users WHERE uuid = 0x11eee6399893e6568a1600ff64196eed';
+        $sql = 'SELECT * FROM users WHERE uuid = UUID_TO_BIN(:uuid)';
         $params = [
             'uuid' => $uuid
         ];
         try {
             $stmt = $this->db->prepare($sql);
-            $stmt->execute();
-            // $result = $stmt->setFetchMode(PDO::FETCH_CLASS, Users::class);
+            $stmt->execute($params);
+            $result = $stmt->setFetchMode(PDO::FETCH_CLASS, Users::class);
             $result = $stmt->fetch();
-
             $stmt->closeCursor();
-            var_dump('test3', $result->getMail());
-            die;
 
             return $result;
         } catch (PDOException $error) {
@@ -76,10 +76,9 @@ final class UsersRepository
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_CLASS);
+            $result = $stmt->fetchAll(PDO::FETCH_CLASS, Users::class);
             $stmt->closeCursor();
-            // var_dump($result[1]->getMail());
-            var_dump($result[1]->mail);
+
             return $result;
         } catch (PDOException $error) {
             throw new Exception('Error: ' . $error->getMessage());
@@ -87,7 +86,7 @@ final class UsersRepository
     }
     /**
      * @param string $uuid
-     * @param array<string, mixed> $data
+     * @param array<string, string> $data
      * @return void
      */
     public function update(string $uuid, array $data): void
@@ -129,10 +128,10 @@ final class UsersRepository
     }
     /**
      * @param string $mail
-     * @return string | null
+     * @return string
      */
 
-    public function getUuid(string $mail): ?string
+    public function getUuid(string $mail): string
     {
         $sql = 'SELECT BIN_TO_UUID(uuid) AS uuid FROM users WHERE mail = :mail';
         $params = [
@@ -141,14 +140,10 @@ final class UsersRepository
         try {
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
-            $result = $stmt->fetch(PDO::FETCH_COLUMN);
+            $result = $stmt->fetchColumn();
             $stmt->closeCursor();
 
-            if ($result) {
-                return $result;
-            } else {
-                return null;
-            }
+            return $result;
         } catch (PDOException $error) {
             throw new Exception('Error: ' . $error->getMessage());
         }
