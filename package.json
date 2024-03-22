@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc --watch",
-    "watch": "sass --watch ./Frontend/src/scss/style.scss:./Frontend/style/style.css"
+    "watch": "sass --watch ./public/src/scss/style.scss:./public/style/style.css"
   },
   "author": "",
   "license": "ISC",

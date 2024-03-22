@@ -1,3 +1,3 @@
 <?php
-require __DIR__ . '/./Backend/config/autoload.php';
+header('Location : ./public/index.php');
 // SILENCE IS GOLDEN

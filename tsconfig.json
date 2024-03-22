@@ -8,16 +8,16 @@
     /* Modules */
     "moduleResolution": "node",
     "module": "commonjs",
-    "rootDir": "./Frontend/src/ts/",
+    "rootDir": "./public/src/ts/",
     /* To select the folder where the files to import are located */
-    "baseUrl": "./Frontend/src/ts/imports/",
+    "baseUrl": "./public/src/ts/imports/",
     /* To choose an alias for the folder where the .ts files to import are located */
     "paths": {
       "@imports/*": [
         "*"
       ]
     }, /* Specify a set of entries that re-map imports to additional lookup locations. */
-    "outDir": "./Frontend/js/",
+    "outDir": "./public/js/",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     /* Type Checking */
