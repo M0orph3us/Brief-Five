@@ -8,9 +8,9 @@
     /* Modules */
     "moduleResolution": "node",
     "module": "commonjs",
-    "rootDir": "./public/src/ts/",
+    "rootDir": "./src/ts/",
     /* To select the folder where the files to import are located */
-    "baseUrl": "./public/src/ts/imports/",
+    "baseUrl": "./src/ts/imports/",
     /* To choose an alias for the folder where the .ts files to import are located */
     "paths": {
       "@imports/*": [

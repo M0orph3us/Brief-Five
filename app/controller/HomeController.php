@@ -9,8 +9,6 @@ final class HomeController
     use Response;
     public function index()
     {
-        echo 'home';
-        die;
         $this->render('home');
     }
 }

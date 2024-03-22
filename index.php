@@ -1,3 +1,2 @@
 <?php
-header('Location : ./public/index.php');
-// SILENCE IS GOLDEN
+require __DIR__ . '/./vendor/autoload.php';
