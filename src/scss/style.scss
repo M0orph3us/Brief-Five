@@ -69,9 +69,9 @@ body {
 
 // IMPORTS //
 
-// @import "colors";
-// @import "template";
-// @import "library";
+@import "colors";
+@import "template";
+@import "library";
 
 /*//////////////////////////////////// FONT-FAMILY ///////////////////////////////////////*/
 // @font-face {
@@ -83,10 +83,10 @@ body {
 
 body {
   z-index: 1;
-  font-family: "";
+  // font-family: "";
 }
 
-/*/////////////////////////////// RESPONSIVE MOBIL ///////////////////////////////////////*/
+/*/////////////////////////////// RESPONSIVE MOBIL 360px ///////////////////////////////////////*/
 
 :root {
   font-size: 16px;
@@ -107,11 +107,11 @@ main {
 /*/////////////////////////////// RESPONSIVE TABLET //////////////////////////////////////*/
 
 @media (min-width: 768px) {
-  // @import "tablet";
+  @import "tablet";
 }
 
 /*/////////////////////////////// RESPONSIVE DESKTOP /////////////////////////////////////*/
 
 @media (min-width: 1024px) {
-  // @import "desktop";
+  @import "desktop";
 }

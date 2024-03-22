@@ -2,6 +2,6 @@
 
 </footer>
 </body>
-<script type="module" src="../js/index.js"></script>
+<script type="module" src="public/js/index.js"></script>
 
 </html>

@@ -2,8 +2,8 @@
 function autoload($class)
 {
     $urlClass = __DIR__ .  '/../app/class/';
-    $urlRepo = __DIR__ . '/../app/models/repositories/';
     $urlModels =  __DIR__ . '/../app/models/';
+    $urlRepo = __DIR__ . '/../app/models/repositories/';
     $urlRouter = __DIR__ . '/../app/controller/';
 
     $directories = [
