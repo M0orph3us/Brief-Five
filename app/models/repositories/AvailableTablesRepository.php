@@ -40,6 +40,8 @@ final class AvailableTablesRepository
     //         throw new Exception('Error: ' . $error->getMessage());
     //     }
     // }
+
+
     /**
      * @return int
      */
@@ -75,6 +77,7 @@ final class AvailableTablesRepository
     //         throw new Exception('Error: ' . $error->getMessage());
     //     }
     // }
+
     /**
      * @param int $number
      * @return void

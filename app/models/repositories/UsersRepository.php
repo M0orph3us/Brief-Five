@@ -23,20 +23,17 @@ final class UsersRepository
         try {
 
             $params = [
-                'firstname' => $data['firstname'],
-                'lastname' => $data['lastname'],
-                'mail' => $data['mail'],
-                'password' => $data['password']
+                'firstname' => $data['firstnameSanitize'],
+                'lastname' => $data['lastnameSanitize'],
+                'mail' => $data['mailSanitize'],
+                'password' => $data['passwordHash']
             ];
 
             $stmt = $this->db->prepare($sql);
             $stmt->execute($params);
             $stmt->closeCursor();
 
-            $getUuid = $this->getUuid($data['mail']);
-            $params =  [
-                'uuid' => $getUuid
-            ];
+            $params['uuid'] = $this->getUuid($data['mailSanitize']);
             $user = new Users($params);
             return $user;
         } catch (PDOException $error) {

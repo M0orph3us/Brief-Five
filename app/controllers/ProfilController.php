@@ -2,20 +2,20 @@
 final class ProfilController
 {
     // params
-    private $userRepo;
+    private $usersRepo;
 
     // constructor
     public function __construct()
     {
-        $this->userRepo = new UsersRepository();
+        $this->usersRepo = new UsersRepository();
     }
 
     // methods
     use Response;
+
     public function profilPage()
     {
-
-        $userProfil = $this->userRepo->readOne(11);
+        $userProfil = $this->usersRepo->readOne();
         $viewData = [
             'userProfil' => $userProfil
         ];

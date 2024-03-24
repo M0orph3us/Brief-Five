@@ -3,11 +3,12 @@ $uri = $_SERVER['REQUEST_URI'];
 switch ($uri) {
     case URL_HOMEPAGE:
         $home = new HomeController();
-        $home->index();
+        $home->homePage();
         break;
 
     case URL_PROFILPAGE:
         $profil = new ProfilController();
+        $profil->profilPage();
         break;
 
     case URL_RESERVATIONPAGE:

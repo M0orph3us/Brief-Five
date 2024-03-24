@@ -1,5 +1,4 @@
 <?php
-// require_once __DIR__ . "/../services/Response.php";
 final class AdminController
 {
     // params
@@ -21,11 +20,11 @@ final class AdminController
         $allReservations = $this->reservationsRepo->readAll();
         $teams = $this->teamsRepo->readAll();
 
-        $data = [
+        $viewData = [
             'allReservations' => $allReservations,
             'teams' => $teams
         ];
 
-        $this->render('admin', $data);
+        $this->render('admin', $viewData);
     }
 }

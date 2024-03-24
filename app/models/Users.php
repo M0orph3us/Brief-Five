@@ -13,7 +13,7 @@ final class Users
     }
 
     // function to hydrate
-    private function hydrate(array $data): void
+    private function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
             $method = "set" . ucfirst($key);
