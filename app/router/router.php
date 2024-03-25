@@ -6,6 +6,17 @@ switch ($uri) {
         $home->homePage();
         break;
 
+    case URL_REGISTER:
+        $home = new HomeController();
+        $home->register();
+        break;
+
+    case URL_LOGIN:
+        $home = new HomeController();
+        $home->login();
+        break;
+
+
     case URL_PROFILPAGE:
         $profil = new ProfilController();
         $profil->profilPage();

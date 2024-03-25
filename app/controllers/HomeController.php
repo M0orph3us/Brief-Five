@@ -16,38 +16,59 @@ final class HomeController
     use CSRFToken;
     use Sanitize;
     use PasswordHash;
+    use PasswordVerify;
 
     public function homePage()
     {
-        if (isset($_POST['firstnameRegister'], $_POST['lastnameRegister'], $_POST['mailRegister'], $_POST['passwordRegister']) && !empty($_POST['firstnameRegister']) && !empty($_POST['lastnameRegister']) && !empty($_POST['mailRegister']) && !empty($_POST['passwordRegister'])) {
-            $formData = [
-                'firstname' => $_POST['firstnameRegister'],
-                'lastname' => $_POST['lastnameRegister'],
-                'mail' => $_POST['mailRegister']
-            ];
-            $formSanitize = $this->sanitize($formData);
-            $passwordHash = $this->passwordHash($_POST['passwordRegister']);
+        $csrfRegister = $this->CSRFToken('csrfRegister');
+        $csrfLogin = $this->CSRFToken('csrfLogin');
+        $viewData = [
+            'csrfRegister' => $csrfRegister,
+            'csrfLogin' => $csrfLogin
+        ];
+        $this->render('home', $viewData);
+    }
 
-            $data =  [
-                ...$formSanitize,
-                'passwordHash' => $passwordHash
-            ];
+    public function register()
+    {
+        if (isset($_POST['csrfRegister']) && !empty($_POST['csrfRegister']) && $_POST['csrfRegister'] === $_SESSION['csrfRegister']) {
+            if (isset($_POST['firstnameRegister'], $_POST['lastnameRegister'], $_POST['mailRegister'], $_POST['passwordRegister']) && !empty($_POST['firstnameRegister']) && !empty($_POST['lastnameRegister']) && !empty($_POST['mailRegister']) && !empty($_POST['passwordRegister'])) {
+                $formData = [
+                    'firstname' => $_POST['firstnameRegister'],
+                    'lastname' => $_POST['lastnameRegister'],
+                    'mail' => $_POST['mailRegister']
+                ];
+                $formDataSanitize = $this->sanitize($formData);
+                $passwordHash = $this->passwordHash($_POST['passwordRegister']);
 
-            $newUser = $this->usersRepo->create($data);
-            // $firstname = $newUser->getFirstname();
+                $data =  [
+                    ...$formDataSanitize,
+                    'passwordHash' => $passwordHash
+                ];
 
-            $csrf = $this->CSRFToken('csrfRegister');
-            $viewData = [
-                'csrf' => $csrf,
-                // 'firstname' => $firstname
-            ];
-            $this->render('home', $viewData);
+                $this->usersRepo->create($data);
+
+
+                $csrfRegister = $this->CSRFToken('csrfRegister');
+                $viewData = [
+                    'csrfRegister' => $csrfRegister
+                ];
+                $this->render('home', $viewData);
+            }
         } else {
-            $csrf = $this->CSRFToken('csrfRegister');
+            $csrfRegister = $this->CSRFToken('csrfRegister');
             $viewData = [
-                'csrf' => $csrf
+                'csrf' => $csrfRegister
             ];
             $this->render('home', $viewData);
+        }
+    }
+
+    public function login()
+    {
+        if (isset($_POST['csrfLogin']) && !empty($_POST['csrfLogin']) && $_POST['csrfLogin'] === $_SESSION['csrfLogin']) {
+            if (isset($_POST['mailLogin'], $_POST['passwordLogin']) && !empty($_POST['mailLogin']) && !empty($_POST['passwordLogin'])) {
+            }
         }
     }
 }

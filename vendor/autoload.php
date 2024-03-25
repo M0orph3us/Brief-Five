@@ -5,13 +5,15 @@ function autoload($class)
     $urlModels =  __DIR__ . '/../app/models/';
     $urlRepo = __DIR__ . '/../app/models/repositories/';
     $urlRouter = __DIR__ . '/../app/controllers/';
+    $urlServices = __DIR__ . '/../app/services/';
 
 
     $directories = [
         $urlClass,
         $urlRepo,
         $urlModels,
-        $urlRouter
+        $urlRouter,
+        $urlServices
     ];
 
     foreach ($directories as $directory) {
@@ -34,11 +36,11 @@ $_SESSION['isConnected'] = false;
 require __DIR__ . '/../config/configRouter.php';
 include __DIR__ . '/../config/debug.php';
 
-$directory = __DIR__ . '/../app/services/';
-$files = glob($directory . '*.php');
-foreach ($files as $file) {
-    require $file;
-}
+// $directory = __DIR__ . '/../app/services/';
+// $files = glob($directory . '*.php');
+// foreach ($files as $file) {
+//     require $file;
+// }
 // require __DIR__ . '/../app/services/Response.php';
 // require __DIR__ . '/../app/services/PasswordHash.php';
 // require __DIR__ . '/../app/services/PasswordVerify.php';
